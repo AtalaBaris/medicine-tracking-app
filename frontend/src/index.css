@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* İstersen buraya projenin genel arka plan rengini ekleyebilirsin */
+body {
+  @apply bg-gray-50 text-gray-900;
+}
