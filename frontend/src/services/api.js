@@ -1,27 +1,39 @@
-const API_URL = "http://localhost:3000/api";
+/**
+ * MedTrack Pro – API Service
+ *
+ * Replace BASE_URL with your backend URL and implement
+ * real fetch/axios calls per endpoint.
+ */
 
-// Tüm ilaçları getir
-export const getMedicines = async () => {
-  const response = await fetch(`${API_URL}/medicines`);
-  return response.json();
+const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+
+async function request(path, options = {}) {
+  const res = await fetch(`${BASE_URL}${path}`, {
+    headers: { "Content-Type": "application/json", ...options.headers },
+    ...options,
+  });
+  if (!res.ok) throw new Error(`API error: ${res.status}`);
+  return res.json();
+}
+
+// ── Auth ──────────────────────────────────────────────────────
+export const auth = {
+  login:    (email, password)  => request("/auth/login",    { method: "POST", body: JSON.stringify({ email, password }) }),
+  register: (data)             => request("/auth/register", { method: "POST", body: JSON.stringify(data) }),
+  logout:   ()                 => request("/auth/logout",   { method: "POST" }),
 };
 
-// Yeni ilaç ekle
-export const addMedicine = async (medicineData) => {
-  const response = await fetch(`${API_URL}/medicines`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(medicineData),
-  });
-  return response.json();
+// ── Medications ───────────────────────────────────────────────
+export const medications = {
+  list:   ()     => request("/medications"),
+  get:    (id)   => request(`/medications/${id}`),
+  create: (data) => request("/medications",    { method: "POST",   body: JSON.stringify(data) }),
+  update: (id, data) => request(`/medications/${id}`, { method: "PUT",  body: JSON.stringify(data) }),
+  delete: (id)   => request(`/medications/${id}`,     { method: "DELETE" }),
 };
 
-// İlaç sil
-export const deleteMedicine = async (id) => {
-  const response = await fetch(`${API_URL}/medicines/${id}`, {
-    method: "DELETE",
-  });
-  return response.json();
+// ── Reports ───────────────────────────────────────────────────
+export const reports = {
+  adherence: (from, to) => request(`/reports/adherence?from=${from}&to=${to}`),
+  daily:     ()         => request("/reports/daily"),
 };

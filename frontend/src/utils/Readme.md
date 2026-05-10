@@ -1,1 +1,0 @@
-kullanılan yardımcı fonksiyonlar
