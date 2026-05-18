@@ -1,120 +1,177 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { register } from "../../services/api";
+import { auth } from "../../services/api";
 import { setStoredUser } from "../../utils/auth";
 
 export default function RegisterPage() {
   const navigate = useNavigate();
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    password: "",
-    phone: "",
-  });
+  const [showPassword, setShowPassword] = useState(false);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleChange = (e) => {
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  };
-
-  const handleSubmit = async (e) => {
+  async function handleSubmit(e) {
     e.preventDefault();
     setError("");
     setLoading(true);
 
     try {
-      const { user } = await register(form);
+      const { user } = await auth.register({
+        name: `${firstName} ${lastName}`.trim(),
+        email,
+        password,
+      });
       setStoredUser(user);
-      navigate("/");
+      navigate("/dashboard");
     } catch (err) {
       setError(err.message);
     } finally {
       setLoading(false);
     }
-  };
+  }
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-6">
-      <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-8">
-        <h1 className="text-2xl font-bold text-blue-600 mb-6">Kayıt Ol</h1>
-
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Ad Soyad
-            </label>
-            <input
-              name="name"
-              value={form.name}
-              onChange={handleChange}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
-            />
+    <main className="w-full min-h-screen flex font-body-lg bg-background text-on-surface antialiased">
+      {/* Illustration Side */}
+      <div className="hidden lg:flex w-1/2 bg-surface-container-low flex-col justify-center items-center p-xl relative overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <img
+            alt="Health technology background"
+            className="w-full h-full object-cover opacity-80 mix-blend-multiply"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjIIOqyuzbrhno7PeYODzgzEhiwVJZRbSMMZnQkGKV6AOV61VtbhBPCSXotNj5XtcngPOor3pxAIlKzqOkseoWv1iHFuSxxA8fizdgf0BHoX_Y1QdjyRWJCX_VbTe0r03jXHfFhDLJtDgZxssY8mu4P-jv9tG2x4yiB8wC-by3JyHOdp2eNSoYcPxKDMxZv_J4CmbBYzZQwWUU6MAP3osIoluf07M0LkwXAhKtfaW5aU0Si_JWadlsbYQUUWMa2tuQTv0VV6IkN98"
+          />
+        </div>
+        <div className="relative z-10 max-w-md text-center bg-surface/90 backdrop-blur-md p-xl rounded-2xl shadow-premium">
+          <div className="w-16 h-16 bg-primary-container text-on-primary-container rounded-2xl flex items-center justify-center mx-auto mb-lg">
+            <span className="material-symbols-outlined filled text-[32px]">monitor_heart</span>
           </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              E-posta
-            </label>
-            <input
-              type="email"
-              name="email"
-              value={form.email}
-              onChange={handleChange}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Şifre
-            </label>
-            <input
-              type="password"
-              name="password"
-              value={form.password}
-              onChange={handleChange}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Telefon (opsiyonel)
-            </label>
-            <input
-              name="phone"
-              value={form.phone}
-              onChange={handleChange}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-
-          {error && (
-            <p className="text-red-600 text-sm" role="alert">
-              {error}
-            </p>
-          )}
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 disabled:opacity-50"
-          >
-            {loading ? "Kaydediliyor..." : "Kayıt Ol"}
-          </button>
-        </form>
-
-        <p className="mt-4 text-center text-sm text-gray-600">
-          Zaten hesabınız var mı?{" "}
-          <Link to="/login" className="text-blue-600 hover:underline">
-            Giriş yap
-          </Link>
-        </p>
+          <h2 className="font-display-lg text-display-lg text-primary mb-md">MedTrack Pro</h2>
+          <p className="font-body-lg text-body-lg text-on-surface-variant">
+            Join thousands managing their health journey with precision and clarity.
+          </p>
+        </div>
       </div>
-    </div>
+
+      {/* Form Side */}
+      <div className="w-full lg:w-1/2 flex flex-col justify-center px-lg sm:px-xl py-xl bg-surface">
+        <div className="max-w-md w-full mx-auto">
+          <div className="mb-xl text-center lg:text-left">
+            <h1 className="font-display-lg text-display-lg text-on-surface mb-xs">Create Account</h1>
+            <p className="font-body-sm text-body-sm text-on-surface-variant">
+              Start tracking your medications today.
+            </p>
+          </div>
+
+          <form className="space-y-lg" onSubmit={handleSubmit}>
+            <div className="grid grid-cols-2 gap-md">
+              <div>
+                <label className="block font-label-caps text-label-caps text-on-surface-variant mb-xs" htmlFor="first-name">
+                  First Name
+                </label>
+                <input
+                  id="first-name"
+                  placeholder="Sarah"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  className="block w-full px-md py-sm bg-surface-container-low border-transparent focus:bg-surface-container-lowest focus:border-primary focus:ring-1 focus:ring-primary rounded-xl font-body-lg text-body-lg text-on-surface transition-all duration-300 placeholder:text-outline-variant"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block font-label-caps text-label-caps text-on-surface-variant mb-xs" htmlFor="last-name">
+                  Last Name
+                </label>
+                <input
+                  id="last-name"
+                  placeholder="Jenkins"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  className="block w-full px-md py-sm bg-surface-container-low border-transparent focus:bg-surface-container-lowest focus:border-primary focus:ring-1 focus:ring-primary rounded-xl font-body-lg text-body-lg text-on-surface transition-all duration-300 placeholder:text-outline-variant"
+                  required
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block font-label-caps text-label-caps text-on-surface-variant mb-xs" htmlFor="reg-email">
+                Email Address
+              </label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-md flex items-center pointer-events-none">
+                  <span className="material-symbols-outlined text-outline">mail</span>
+                </div>
+                <input
+                  id="reg-email"
+                  type="email"
+                  placeholder="name@example.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="block w-full pl-xl pr-md py-sm bg-surface-container-low border-transparent focus:bg-surface-container-lowest focus:border-primary focus:ring-1 focus:ring-primary rounded-xl font-body-lg text-body-lg text-on-surface transition-all duration-300 placeholder:text-outline-variant"
+                  required
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block font-label-caps text-label-caps text-on-surface-variant mb-xs" htmlFor="reg-password">
+                Password
+              </label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-md flex items-center pointer-events-none">
+                  <span className="material-symbols-outlined text-outline">lock</span>
+                </div>
+                <input
+                  id="reg-password"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="••••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="block w-full pl-xl pr-xl py-sm bg-surface-container-low border-transparent focus:bg-surface-container-lowest focus:border-primary focus:ring-1 focus:ring-primary rounded-xl font-body-lg text-body-lg text-on-surface transition-all duration-300 placeholder:text-outline-variant"
+                  required
+                />
+                <div className="absolute inset-y-0 right-0 pr-md flex items-center">
+                  <button type="button" onClick={() => setShowPassword((v) => !v)} className="text-outline hover:text-on-surface-variant transition-colors">
+                    <span className="material-symbols-outlined">{showPassword ? "visibility" : "visibility_off"}</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex items-center">
+              <input className="h-4 w-4 text-primary focus:ring-primary border-outline-variant rounded" id="terms" type="checkbox" />
+              <label className="ml-sm font-body-sm text-body-sm text-on-surface-variant" htmlFor="terms">
+                I agree to the{" "}
+                <a href="#" className="text-primary hover:underline">Terms of Service</a> and{" "}
+                <a href="#" className="text-primary hover:underline">Privacy Policy</a>
+              </label>
+            </div>
+
+            {error && (
+              <p className="text-error font-body-sm text-body-sm" role="alert">
+                {error}
+              </p>
+            )}
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full flex justify-center py-sm px-md rounded-xl font-headline-md text-headline-md text-on-primary bg-primary hover:bg-primary-container hover:scale-[1.02] transition-all duration-300 shadow-premium hover:shadow-premium-hover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:opacity-50"
+            >
+              {loading ? "Creating account..." : "Create Account"}
+            </button>
+          </form>
+
+          <p className="mt-lg text-center font-body-sm text-body-sm text-on-surface-variant">
+            Already have an account?{" "}
+            <Link to="/login" className="font-headline-md text-headline-md text-primary hover:text-primary-container transition-colors">
+              Sign in
+            </Link>
+          </p>
+        </div>
+      </div>
+    </main>
   );
 }
