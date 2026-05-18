@@ -1,44 +1,34 @@
-import { useEffect, useState } from "react";
-import { getMedicines } from "./services/api";
+import { Routes, Route, Navigate } from "react-router-dom";
+import AppLayout from "./components/layout/AppLayout";
+import LoginPage from "./pages/loginPage/loginpage";
+import RegisterPage from "./pages/registerPage/RegisterPage";
+import Dashboard from "./pages/dashboard/Dashboard";
+import Medications from "./pages/medications/Medications";
+import AddMedication from "./pages/addMedication/AddMedication";
+import Reports from "./pages/reports/Reports";
+import Schedule from "./pages/schedule/Schedule";
+import Settings from "./pages/settings/Settings";
 
-function App() {
-  const [medicines, setMedicines] = useState([]);
-
-  // Sayfa yüklendiğinde backend'den verileri çek (Test amaçlı)
-  useEffect(() => {
-    getMedicines().then((data) => {
-      setMedicines(data);
-    });
-  }, []);
-
+export default function App() {
   return (
-    <div className="min-h-screen p-8">
-      <header className="mb-8">
-        <h1 className="text-3xl font-bold text-blue-600">İlaç Takip Sistemi</h1>
-        <p className="text-gray-500">
-          Frontend ve Backend bağlantısı başarılı!
-        </p>
-      </header>
+    <Routes>
+      {/* Public routes */}
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/register" element={<RegisterPage />} />
 
-      <main>
-        {/* İleride buraya <MedicineList /> veya <AddMedicineForm /> bileşenleri gelecek */}
-        <div className="bg-white p-6 rounded-lg shadow-md">
-          <h2 className="text-xl font-semibold mb-4">Kayıtlı İlaçlar</h2>
-          {medicines.length === 0 ? (
-            <p className="text-gray-400">Henüz ilaç eklenmemiş.</p>
-          ) : (
-            <ul>
-              {medicines.map((med) => (
-                <li key={med.id} className="border-b py-2">
-                  {med.name} - {med.dosage} ({med.time})
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-      </main>
-    </div>
+      {/* App routes - wrapped in shared layout */}
+      <Route element={<AppLayout />}>
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/medications" element={<Medications />} />
+        <Route path="/add-medication" element={<AddMedication />} />
+        <Route path="/schedule" element={<Schedule />} />
+        <Route path="/reports" element={<Reports />} />
+        <Route path="/settings" element={<Settings />} />
+      </Route>
+
+      {/* Default redirect */}
+      <Route path="/" element={<Navigate to="/login" replace />} />
+      <Route path="*" element={<Navigate to="/login" replace />} />
+    </Routes>
   );
 }
-
-export default App;
