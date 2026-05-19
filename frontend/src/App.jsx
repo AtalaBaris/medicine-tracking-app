@@ -39,6 +39,7 @@ export default function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/medications" element={<Medications />} />
           <Route path="/add-medication" element={<AddMedication />} />
+          <Route path="/medications/:id/edit" element={<AddMedication />} />
           <Route path="/schedule" element={<Schedule />} />
           <Route path="/reports" element={<Reports />} />
           <Route path="/settings" element={<Settings />} />

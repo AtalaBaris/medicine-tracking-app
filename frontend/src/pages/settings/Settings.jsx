@@ -1,3 +1,6 @@
+import { useNavigate } from "react-router-dom";
+import { clearStoredUser, getStoredUser } from "../../utils/auth";
+
 const SECTIONS = [
   {
     title: "Account",
@@ -26,6 +29,14 @@ const SECTIONS = [
 ];
 
 export default function Settings() {
+  const navigate = useNavigate();
+  const user = getStoredUser();
+
+  function handleLogout() {
+    clearStoredUser();
+    navigate("/login");
+  }
+
   return (
     <div className="p-gutter md:p-xl max-w-2xl mx-auto">
 
@@ -42,8 +53,8 @@ export default function Settings() {
           className="w-14 h-14 rounded-full border-2 border-primary-container/30 object-cover"
         />
         <div className="flex-1">
-          <p className="font-headline-md text-headline-md text-on-surface">Sarah Jenkins</p>
-          <p className="font-body-sm text-body-sm text-on-surface-variant">sarah@example.com</p>
+          <p className="font-headline-md text-headline-md text-on-surface">{user?.name || "Kullanıcı"}</p>
+          <p className="font-body-sm text-body-sm text-on-surface-variant">{user?.email || ""}</p>
         </div>
         <button className="text-primary font-body-sm text-body-sm hover:underline">Edit</button>
       </div>
@@ -89,8 +100,13 @@ export default function Settings() {
       </div>
 
       {/* Sign out */}
-      <button className="mt-lg w-full py-sm px-md border border-error/30 rounded-xl text-error font-body-sm text-body-sm font-semibold hover:bg-error/5 transition-colors flex items-center justify-center gap-sm">
-        <span className="material-symbols-outlined text-[18px]">logout</span>Sign Out
+      <button
+        type="button"
+        onClick={handleLogout}
+        className="mt-lg w-full py-sm px-md border border-error/30 rounded-xl text-error font-body-sm text-body-sm font-semibold hover:bg-error/5 transition-colors flex items-center justify-center gap-sm"
+      >
+        <span className="material-symbols-outlined text-[18px]">logout</span>
+        Çıkış Yap
       </button>
     </div>
   );

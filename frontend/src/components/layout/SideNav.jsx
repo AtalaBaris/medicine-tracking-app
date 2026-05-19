@@ -1,29 +1,30 @@
 import { NavLink } from "react-router-dom";
+import { getStoredUser } from "../../utils/auth";
 
 const NAV_ITEMS = [
-  { to: "/dashboard",  icon: "dashboard",  label: "Dashboard"      },
-  { to: "/medications",icon: "pill",       label: "Medications"    },
-  { to: "/schedule",   icon: "event_note", label: "Schedule"       },
-  { to: "/reports",    icon: "bar_chart",  label: "Health Reports" },
-  { to: "/settings",   icon: "settings",   label: "Settings"       },
+  { to: "/dashboard", icon: "dashboard", label: "Panel" },
+  { to: "/medications", icon: "pill", label: "İlaçlar" },
+  { to: "/schedule", icon: "event_note", label: "Program" },
+  { to: "/reports", icon: "bar_chart", label: "Sağlık Raporları" },
+  { to: "/settings", icon: "settings", label: "Ayarlar" },
 ];
 
 export default function SideNav() {
+  const user = getStoredUser();
+
   return (
     <nav className="hidden md:flex bg-surface-container-low h-screen w-72 flex-col fixed left-0 top-0 border-r border-outline-variant/30 shadow-xl z-40">
-      {/* Brand */}
       <div className="px-md py-lg">
         <NavLink to="/dashboard" className="block">
           <span className="font-display-lg text-headline-md tracking-tight text-primary">
             MedTrack Pro
           </span>
           <div className="text-on-surface-variant font-label-caps text-label-caps mt-xs">
-            Premium Health Management
+            Premium Sağlık Yönetimi
           </div>
         </NavLink>
       </div>
 
-      {/* Nav links */}
       <div className="flex flex-col flex-grow gap-unit px-unit py-md">
         {NAV_ITEMS.map(({ to, icon, label }) => (
           <NavLink
@@ -51,26 +52,23 @@ export default function SideNav() {
         ))}
       </div>
 
-      {/* User footer */}
       <div className="p-md border-t border-outline-variant/30 mt-auto">
-        <div className="flex items-center gap-md mb-md px-md">
-          <img
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuB2np6ix4YIdxvHeo9PualtPVariZJDXMnmOXjneYeufL6So3ybrSBrV8whmLYKu3ab_Q2bHP7E02rJcUcGMlmOh3DDRsRh9FY83wlB-Vj-g37i6h-1Jk_5e1eEr1hrT7A0mrU7D0tPOIJ1kLRHda3wLKD6l5VClAz_ReQoBrF2KiUnCO0a45HOBsKws2XvLAPmeGhbuP3QYeMyratnci6RKvzWuBqP0gVBQ0c5JMFspNsi-Fr-GahlwqzOnSuZQdanTWifTCwJags"
-            alt="User Profile"
-            className="w-10 h-10 rounded-full border border-outline-variant/30 object-cover"
-          />
-          <div>
-            <p className="font-body-sm text-body-sm font-semibold text-on-surface">
-              Sarah Jenkins
+        <div className="flex items-center gap-md px-md">
+          <div
+            className="w-10 h-10 rounded-full border border-outline-variant/30 bg-primary-container/10 flex items-center justify-center flex-shrink-0"
+            aria-hidden
+          >
+            <span className="material-symbols-outlined text-primary text-[20px]">person</span>
+          </div>
+          <div className="min-w-0">
+            <p className="font-body-sm text-body-sm font-semibold text-on-surface truncate">
+              {user?.name || "Kullanıcı"}
             </p>
-            <p className="font-label-caps text-label-caps text-on-surface-variant">
-              Premium
+            <p className="font-label-caps text-label-caps text-on-surface-variant truncate">
+              {user?.email || "Üye"}
             </p>
           </div>
         </div>
-        <button className="w-full bg-surface-container-highest text-on-surface font-label-caps text-label-caps py-sm rounded-lg border border-outline-variant/50 hover:bg-surface-variant transition-colors">
-          Upgrade to Pro
-        </button>
       </div>
     </nav>
   );

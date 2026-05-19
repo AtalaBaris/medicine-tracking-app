@@ -1,11 +1,11 @@
 import { NavLink } from "react-router-dom";
 
 const MOBILE_ITEMS = [
-  { to: "/dashboard",   icon: "dashboard",  label: "Dashboard" },
-  { to: "/medications", icon: "pill",       label: "Meds"      },
-  { to: "/schedule",    icon: "event_note", label: "Schedule"  },
-  { to: "/reports",     icon: "bar_chart",  label: "Reports"   },
-  { to: "/settings",    icon: "settings",   label: "Settings"  },
+  { to: "/dashboard", icon: "dashboard", label: "Panel" },
+  { to: "/medications", icon: "pill", label: "İlaçlar" },
+  { to: "/schedule", icon: "event_note", label: "Program" },
+  { to: "/reports", icon: "bar_chart", label: "Raporlar" },
+  { to: "/settings", icon: "settings", label: "Ayarlar" },
 ];
 
 export default function BottomNav() {

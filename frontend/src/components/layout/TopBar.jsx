@@ -21,7 +21,7 @@ export default function TopBar({ title = "MedTrack Pro", showAdd = true, onClose
             onClick={() => navigate("/add-medication")}
             className="bg-primary-container text-on-primary px-md py-sm rounded-full font-label-caps text-label-caps hover:scale-105 transition-all duration-300"
           >
-            Add Medication
+            İlaç Ekle
           </button>
         ) : (
           <button

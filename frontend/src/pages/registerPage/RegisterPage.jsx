@@ -39,7 +39,7 @@ export default function RegisterPage() {
       <div className="hidden lg:flex w-1/2 bg-surface-container-low flex-col justify-center items-center p-xl relative overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img
-            alt="Health technology background"
+            alt="Sağlık teknolojisi arka plan görseli"
             className="w-full h-full object-cover opacity-80 mix-blend-multiply"
             src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjIIOqyuzbrhno7PeYODzgzEhiwVJZRbSMMZnQkGKV6AOV61VtbhBPCSXotNj5XtcngPOor3pxAIlKzqOkseoWv1iHFuSxxA8fizdgf0BHoX_Y1QdjyRWJCX_VbTe0r03jXHfFhDLJtDgZxssY8mu4P-jv9tG2x4yiB8wC-by3JyHOdp2eNSoYcPxKDMxZv_J4CmbBYzZQwWUU6MAP3osIoluf07M0LkwXAhKtfaW5aU0Si_JWadlsbYQUUWMa2tuQTv0VV6IkN98"
           />
@@ -50,7 +50,7 @@ export default function RegisterPage() {
           </div>
           <h2 className="font-display-lg text-display-lg text-primary mb-md">MedTrack Pro</h2>
           <p className="font-body-lg text-body-lg text-on-surface-variant">
-            Join thousands managing their health journey with precision and clarity.
+            Sağlık yolculuğunuzu hassasiyet ve netlikle yönetin.
           </p>
         </div>
       </div>
@@ -59,9 +59,9 @@ export default function RegisterPage() {
       <div className="w-full lg:w-1/2 flex flex-col justify-center px-lg sm:px-xl py-xl bg-surface">
         <div className="max-w-md w-full mx-auto">
           <div className="mb-xl text-center lg:text-left">
-            <h1 className="font-display-lg text-display-lg text-on-surface mb-xs">Create Account</h1>
+            <h1 className="font-display-lg text-display-lg text-on-surface mb-xs">Hesap Oluştur</h1>
             <p className="font-body-sm text-body-sm text-on-surface-variant">
-              Start tracking your medications today.
+              İlaç takibine bugün başlayın.
             </p>
           </div>
 
@@ -69,11 +69,11 @@ export default function RegisterPage() {
             <div className="grid grid-cols-2 gap-md">
               <div>
                 <label className="block font-label-caps text-label-caps text-on-surface-variant mb-xs" htmlFor="first-name">
-                  First Name
+                  Ad
                 </label>
                 <input
                   id="first-name"
-                  placeholder="Sarah"
+                  placeholder="Adınız"
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
                   className="block w-full px-md py-sm bg-surface-container-low border-transparent focus:bg-surface-container-lowest focus:border-primary focus:ring-1 focus:ring-primary rounded-xl font-body-lg text-body-lg text-on-surface transition-all duration-300 placeholder:text-outline-variant"
@@ -82,11 +82,11 @@ export default function RegisterPage() {
               </div>
               <div>
                 <label className="block font-label-caps text-label-caps text-on-surface-variant mb-xs" htmlFor="last-name">
-                  Last Name
+                  Soyad
                 </label>
                 <input
                   id="last-name"
-                  placeholder="Jenkins"
+                  placeholder="Soyadınız"
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
                   className="block w-full px-md py-sm bg-surface-container-low border-transparent focus:bg-surface-container-lowest focus:border-primary focus:ring-1 focus:ring-primary rounded-xl font-body-lg text-body-lg text-on-surface transition-all duration-300 placeholder:text-outline-variant"
@@ -97,19 +97,19 @@ export default function RegisterPage() {
 
             <div>
               <label className="block font-label-caps text-label-caps text-on-surface-variant mb-xs" htmlFor="reg-email">
-                Email Address
+                E-posta Adresi
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-md flex items-center pointer-events-none">
-                  <span className="material-symbols-outlined text-outline">mail</span>
+                <div className="pointer-events-none absolute inset-y-0 left-0 flex w-12 items-center justify-center">
+                  <span className="material-symbols-outlined text-[20px] text-outline">mail</span>
                 </div>
                 <input
                   id="reg-email"
                   type="email"
-                  placeholder="name@example.com"
+                  placeholder="ornek@email.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="block w-full pl-xl pr-md py-sm bg-surface-container-low border-transparent focus:bg-surface-container-lowest focus:border-primary focus:ring-1 focus:ring-primary rounded-xl font-body-lg text-body-lg text-on-surface transition-all duration-300 placeholder:text-outline-variant"
+                  className="block w-full py-sm pl-12 pr-4 bg-surface-container-low border-transparent focus:bg-surface-container-lowest focus:border-primary focus:ring-1 focus:ring-primary rounded-xl font-body-lg text-body-lg text-on-surface transition-all duration-300 placeholder:text-outline-variant"
                   required
                 />
               </div>
@@ -117,36 +117,34 @@ export default function RegisterPage() {
 
             <div>
               <label className="block font-label-caps text-label-caps text-on-surface-variant mb-xs" htmlFor="reg-password">
-                Password
+                Şifre
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-md flex items-center pointer-events-none">
-                  <span className="material-symbols-outlined text-outline">lock</span>
+                <div className="pointer-events-none absolute inset-y-0 left-0 flex w-12 items-center justify-center">
+                  <span className="material-symbols-outlined text-[20px] text-outline">lock</span>
                 </div>
                 <input
                   id="reg-password"
                   type={showPassword ? "text" : "password"}
-                  placeholder="••••••••"
+                  placeholder="Şifrenizi girin"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="block w-full pl-xl pr-xl py-sm bg-surface-container-low border-transparent focus:bg-surface-container-lowest focus:border-primary focus:ring-1 focus:ring-primary rounded-xl font-body-lg text-body-lg text-on-surface transition-all duration-300 placeholder:text-outline-variant"
+                  className="block w-full py-sm pl-12 pr-12 bg-surface-container-low border-transparent focus:bg-surface-container-lowest focus:border-primary focus:ring-1 focus:ring-primary rounded-xl font-body-lg text-body-lg text-on-surface transition-all duration-300 placeholder:text-outline-variant"
                   required
                 />
-                <div className="absolute inset-y-0 right-0 pr-md flex items-center">
-                  <button type="button" onClick={() => setShowPassword((v) => !v)} className="text-outline hover:text-on-surface-variant transition-colors">
-                    <span className="material-symbols-outlined">{showPassword ? "visibility" : "visibility_off"}</span>
+                <div className="absolute inset-y-0 right-0 flex w-12 items-center justify-center">
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword((v) => !v)}
+                    className="text-outline hover:text-on-surface-variant transition-colors"
+                    aria-label={showPassword ? "Şifreyi gizle" : "Şifreyi göster"}
+                  >
+                    <span className="material-symbols-outlined text-[20px]">
+                      {showPassword ? "visibility" : "visibility_off"}
+                    </span>
                   </button>
                 </div>
               </div>
-            </div>
-
-            <div className="flex items-center">
-              <input className="h-4 w-4 text-primary focus:ring-primary border-outline-variant rounded" id="terms" type="checkbox" />
-              <label className="ml-sm font-body-sm text-body-sm text-on-surface-variant" htmlFor="terms">
-                I agree to the{" "}
-                <a href="#" className="text-primary hover:underline">Terms of Service</a> and{" "}
-                <a href="#" className="text-primary hover:underline">Privacy Policy</a>
-              </label>
             </div>
 
             {error && (
@@ -160,14 +158,14 @@ export default function RegisterPage() {
               disabled={loading}
               className="w-full flex justify-center py-sm px-md rounded-xl font-headline-md text-headline-md text-on-primary bg-primary hover:bg-primary-container hover:scale-[1.02] transition-all duration-300 shadow-premium hover:shadow-premium-hover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:opacity-50"
             >
-              {loading ? "Creating account..." : "Create Account"}
+              {loading ? "Hesap oluşturuluyor..." : "Hesap Oluştur"}
             </button>
           </form>
 
           <p className="mt-lg text-center font-body-sm text-body-sm text-on-surface-variant">
-            Already have an account?{" "}
+            Zaten hesabınız var mı?{" "}
             <Link to="/login" className="font-headline-md text-headline-md text-primary hover:text-primary-container transition-colors">
-              Sign in
+              Giriş yap
             </Link>
           </p>
         </div>

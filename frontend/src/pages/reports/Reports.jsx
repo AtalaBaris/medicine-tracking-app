@@ -1,15 +1,23 @@
-const BARS = [
-  { day: "Mon", pct: 60 }, { day: "Tue", pct: 80 }, { day: "Wed", pct: 95 },
-  { day: "Thu", pct: 70 }, { day: "Fri", pct: 40, low: true }, { day: "Sat", pct: 90 }, { day: "Sun", pct: 100 },
-];
-
-const MED_DETAILS = [
-  { name: "Lisinopril",   icon: "pill",       dose: "10mg",  freq: "Once Daily",          pct: 95, color: "bg-primary-container" },
-  { name: "Atorvastatin", icon: "medication",  dose: "20mg",  freq: "Once Daily (Evening)", pct: 82, color: "bg-primary-container" },
-  { name: "Metformin",    icon: "vaccines",    dose: "500mg", freq: "Twice Daily",          pct: 60, color: "bg-error",             error: true },
-];
+import { useEffect, useState } from "react";
+import { reports as reportsApi } from "../../services/api";
+import { getStoredUser } from "../../utils/auth";
 
 export default function Reports() {
+  const user = getStoredUser();
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!user?.id) return;
+    reportsApi.adherence(user.id, 30).then(setData).catch(console.error).finally(() => setLoading(false));
+  }, [user?.id]);
+
+  const BARS = data?.weeklyBars ?? [];
+  const MED_DETAILS = data?.medications ?? [];
+  const overallPct = data?.overallPct ?? 0;
+  const taken = data?.taken ?? 0;
+  const missed = data?.missed ?? 0;
+
   return (
     <div className="p-gutter md:p-xl bg-background min-h-screen w-full">
 
@@ -47,18 +55,18 @@ export default function Reports() {
               <circle cx="50" cy="50" fill="none" r="40" stroke="#0052cc" strokeDasharray="251.2" strokeDashoffset="30.14" strokeLinecap="round" strokeWidth="8" />
             </svg>
             <div className="absolute inset-0 flex flex-col items-center justify-center">
-              <span className="font-display-lg text-display-lg text-on-surface">88%</span>
+              <span className="font-display-lg text-display-lg text-on-surface">{loading ? "—" : `${overallPct}%`}</span>
               <span className="font-label-caps text-label-caps text-on-surface-variant mt-xs">Excellent</span>
             </div>
           </div>
           <div className="flex justify-between items-center pt-md border-t border-outline-variant/20">
             <div className="flex items-center gap-xs">
               <span className="w-2 h-2 rounded-full bg-primary-container" />
-              <span className="font-body-sm text-body-sm text-on-surface-variant">Taken: 124</span>
+              <span className="font-body-sm text-body-sm text-on-surface-variant">Alınan: {taken}</span>
             </div>
             <div className="flex items-center gap-xs">
               <span className="w-2 h-2 rounded-full bg-outline-variant" />
-              <span className="font-body-sm text-body-sm text-on-surface-variant">Missed: 16</span>
+              <span className="font-body-sm text-body-sm text-on-surface-variant">Kaçırılan: {missed}</span>
             </div>
           </div>
         </div>
